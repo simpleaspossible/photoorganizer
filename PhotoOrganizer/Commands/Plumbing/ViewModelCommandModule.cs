@@ -1,6 +1,6 @@
 ﻿using Ninject.Modules;
 
-namespace PhotoOrganizer.Commands
+namespace PhotoOrganizer.Commands.Plumbing
 {
     public class ViewModelCommandModule : NinjectModule
     {

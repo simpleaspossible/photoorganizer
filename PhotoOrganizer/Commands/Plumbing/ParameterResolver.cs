@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PhotoOrganizer.Commands
+namespace PhotoOrganizer.Commands.Plumbing
 {
     public class ParameterResolver
     {

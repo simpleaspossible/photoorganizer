@@ -1,5 +1,6 @@
 ﻿using Ninject;
 using PhotoOrganizer.Commands;
+using PhotoOrganizer.Commands.Plumbing;
 
 namespace PhotoOrganizer
 {

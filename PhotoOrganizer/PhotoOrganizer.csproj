@@ -57,10 +57,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\CustomCommand.cs" />
-    <Compile Include="Commands\ParameterResolver.cs" />
+    <Compile Include="Commands\DeleteCurrentPhotoCommand.cs" />
+    <Compile Include="Commands\MovePhotoCommand.cs" />
+    <Compile Include="Commands\Plumbing\CustomCommand.cs" />
+    <Compile Include="Commands\Plumbing\ParameterResolver.cs" />
     <Compile Include="Commands\SetSourceDirectoryCommand.cs" />
-    <Compile Include="Commands\ViewModelCommand.cs" />
+    <Compile Include="Commands\Plumbing\ViewModelCommand.cs" />
     <Page Include="Views\PhotoOrganizerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,7 +71,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\ViewModelCommandModule.cs" />
+    <Compile Include="Commands\Plumbing\ViewModelCommandModule.cs" />
+    <Compile Include="Commands\ShowCurrentPhotoCommand.cs" />
+    <Compile Include="Commands\ShowNextPhotoCommand.cs" />
+    <Compile Include="Commands\ShowPreviousPhotoCommand.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />

@@ -16,5 +16,11 @@
             <Label Content="Selected Directory:" />
             <Label Content="{Binding SelectedDirectory}" />
         </WrapPanel>
+        <Label Content="{Binding StatusMessage}"/>
+        <WrapPanel>
+            <Label Content="Number Of Files:" />
+            <Label Content="{Binding NumberOfFiles}" />
+        </WrapPanel>
+        <Image Source="{Binding CurrentImage}" />
     </StackPanel>
 </Window>

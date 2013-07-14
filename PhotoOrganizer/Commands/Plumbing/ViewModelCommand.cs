@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace PhotoOrganizer.Commands
+namespace PhotoOrganizer.Commands.Plumbing
 {
     public abstract class ViewModelCommand : ICommand
     {
