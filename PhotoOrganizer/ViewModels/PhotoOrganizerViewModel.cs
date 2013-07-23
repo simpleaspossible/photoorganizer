@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
+using System.Net.Mime;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Ninject;
 using PhotoOrganizer.Commands;
 using PhotoOrganizer.Commands.Plumbing;
@@ -14,6 +17,8 @@ namespace PhotoOrganizer.ViewModels
         private int _numberOfFiles;
         private string _statusMessage;
         private IList<FileInfo> _photosToView;
+        private ImageSource _image;
+        private FileInfo _selectedPhoto;
 
         public ViewModelCommand SetDirectoryCommand { get; set; }
 
@@ -23,7 +28,7 @@ namespace PhotoOrganizer.ViewModels
 
         public ViewModelCommand ShowNextPhotoCommand { get; set; }
 
-        public ViewModelCommand ShowPreviousCommand { get; set; }
+        public ViewModelCommand ShowPreviousPhotoCommand { get; set; }
 
         public ViewModelCommand DeleteCurrentPhotoCommand { get; set; }
 
@@ -62,6 +67,17 @@ namespace PhotoOrganizer.ViewModels
             }
         }
 
+        public ImageSource CurrentImage
+        {
+            get { return _image; }
+            set
+            {
+                if (Equals(_image, value)) return;
+                _image = value;
+                OnPropertyChanged(x => x.CurrentImage);
+            }
+        }
+
         public IList<FileInfo> PhotosToView
         {
             get { return _photosToView; }
@@ -73,10 +89,24 @@ namespace PhotoOrganizer.ViewModels
             }
         }
 
+        public FileInfo SelectedPhoto
+        {
+            get { return _selectedPhoto; }
+            set
+            {
+                if (_selectedPhoto == value) return;
+                _selectedPhoto = value;
+                OnPropertyChanged(x => x.SelectedPhoto);
+            }
+        }
+
         [Inject]
-        public PhotoOrganizerViewModel([SetSourceDirectory]ViewModelCommand setDirectoryCommand )
+        public PhotoOrganizerViewModel([SetSourceDirectory]ViewModelCommand setDirectoryCommand, [ShowCurrentPhotoCommand]ViewModelCommand showCurrentPhotoCommand, [ShowPreviousPhotoCommand]ViewModelCommand showPrevoiusPhotoCommand, [ShowNextPhotoCommand]ViewModelCommand showNextPhotoCommand)
         {
             SetDirectoryCommand = setDirectoryCommand;
+            ShowCurrentPhotoCommand = showCurrentPhotoCommand;
+            ShowPreviousPhotoCommand = showPrevoiusPhotoCommand;
+            ShowNextPhotoCommand = showNextPhotoCommand;
             PhotosToView = new List<FileInfo>();
         }
 

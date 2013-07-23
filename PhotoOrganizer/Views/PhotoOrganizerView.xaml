@@ -2,9 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="PhotoOrganizer" Height="800" Width="650">
-    <StackPanel HorizontalAlignment="Center">
-        <Label Content="Photo Organizer" FontWeight="ExtraBold" FontFamily="Calibri" FontSize="32" FontStyle="Italic" />
-        <Button Margin="0,10,0,0" Height="40" Width="100" Content="Choose File" Command="{Binding SetDirectoryCommand}" CommandParameter="{Binding}" >
+    <StackPanel HorizontalAlignment="Center" Margin="0,0,2,0" Width="640">
+        <Label Content="Photo Organizer" FontWeight="ExtraBold" FontFamily="Calibri" FontSize="32" FontStyle="Italic" HorizontalAlignment="Center" />
+        <Button Margin="0,10,0,0" Height="40" Width="300" Content="Choose Directory To Organize" Command="{Binding SetDirectoryCommand}" CommandParameter="{Binding}" >
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="0.119" />
@@ -16,11 +16,16 @@
             <Label Content="Selected Directory:" />
             <Label Content="{Binding SelectedDirectory}" />
         </WrapPanel>
-        <Label Content="{Binding StatusMessage}"/>
         <WrapPanel>
             <Label Content="Number Of Files:" />
             <Label Content="{Binding NumberOfFiles}" />
         </WrapPanel>
-        <Image Source="{Binding CurrentImage}" />
+        <Label HorizontalAlignment="Center" Content="Current Image" />
+        <WrapPanel>
+            <Button Content="Previous" Width="50" Command="{Binding ShowPreviousPhotoCommand}" CommandParameter="{Binding}" VerticalAlignment="Center" />
+            <Image Source="{Binding CurrentImage}" Width="450"  />
+            <Button Content="Next" Width="50" Command="{Binding ShowNextPhotoCommand}" CommandParameter="{Binding}" VerticalAlignment="Center" />
+        </WrapPanel>
+        <Label Content="{Binding StatusMessage}"/>
     </StackPanel>
 </Window>

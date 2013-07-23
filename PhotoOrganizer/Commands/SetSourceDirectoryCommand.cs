@@ -6,9 +6,7 @@ using PhotoOrganizer.ViewModels;
 
 namespace PhotoOrganizer.Commands
 {
-    public class SetSourceDirectoryAttribute : Attribute
-    {
-    }
+    public class SetSourceDirectoryAttribute : Attribute {}
 
     public class SetSourceDirectoryCommand : ViewModelCommand
     {
@@ -23,30 +21,45 @@ namespace PhotoOrganizer.Commands
 
         public override void Execute(object parameter)
         {
+            if (!CanExecute(parameter)) return;
+
             _viewModel.NumberOfFiles = 0;
 
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog() { ShowNewFolderButton = true };
 
             DialogResult dialogResult = folderBrowserDialog.ShowDialog();
 
-            if (dialogResult == DialogResult.OK)
+            if (dialogResult != DialogResult.OK) return;
+
+            _viewModel.Directory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
+            _viewModel.SelectedDirectory = _viewModel.Directory.FullName;
+
+            RecursiveGetFiles(_viewModel.Directory);
+
+            if(_viewModel.ShowCurrentPhotoCommand.CanExecute(_viewModel) && _viewModel.PhotosToView.Count > 0)
             {
-                _viewModel.Directory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-                _viewModel.SelectedDirectory = _viewModel.Directory.FullName;
+                _viewModel.SelectedPhoto = _viewModel.PhotosToView[0];
+                _viewModel.ShowCurrentPhotoCommand.Execute(_viewModel);
+            }
+        }
 
-                if (_viewModel.Directory.GetFiles().Length > 0)
+        private void RecursiveGetFiles(DirectoryInfo dir)
+        {
+            if (dir.GetFiles().Length > 0)
+            {
+                foreach (FileInfo file in dir.GetFiles())
                 {
-                    foreach (FileInfo file in _viewModel.Directory.GetFiles())
-                    {
-                        _viewModel.PhotosToView.Add(file);
-                        _viewModel.NumberOfFiles++;
-                    }
+                    _viewModel.PhotosToView.Add(file);
+                    //this prop will eventually be deduced from PhotosToView.Count
+                    _viewModel.NumberOfFiles++;
                 }
+            }
 
-                if (_viewModel.Directory.GetDirectories().Length > 0)
-                {
-                    _viewModel.StatusMessage = "There are sub-directories that may need to be looked at.";
-                }
+            if (dir.GetDirectories().Length <= 0) return;
+
+            foreach(DirectoryInfo directory in dir.GetDirectories())
+            {
+                RecursiveGetFiles(directory);
             }
         }
     }
